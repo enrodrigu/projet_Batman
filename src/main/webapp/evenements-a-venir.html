@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Événements à Venir</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Événements à Venir</h1>
+        <table id="eventsTable">
+            <thead>
+                <tr>
+                    <th>Date et Heure de Début</th>
+                    <th>Date et Heure de Fin</th>
+                    <th>DJ</th>
+                    <th>Lieu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Les événements à venir seront ajoutés ici dynamiquement -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        // Script JavaScript pour récupérer et afficher les événements à venir
+
+        // Exemple de données d'événements à venir (remplacez cela par vos propres données)
+        var events = [
+            { dateDebut: "2024-03-15T20:00", dateFin: "2024-03-15T23:00", dj: "DJ 1", lieu: "Lieu 1" },
+            { dateDebut: "2024-03-20T22:00", dateFin: "2024-03-21T02:00", dj: "DJ 2", lieu: "Lieu 2" },
+            { dateDebut: "2024-03-25T19:00", dateFin: "2024-03-25T22:00", dj: "DJ 3", lieu: "Lieu 3" }
+        ];
+
+        // Fonction pour afficher les événements à venir dans le tableau
+        function afficherEvenements() {
+            var eventsTableBody = document.getElementById("eventsTable").getElementsByTagName("tbody")[0];
+            for (var i = 0; i < events.length; i++) {
+                var event = events[i];
+                var row = "<tr><td>" + event.dateDebut + "</td><td>" + event.dateFin + "</td><td>" + event.dj + "</td><td>" + event.lieu + "</td></tr>";
+                eventsTableBody.innerHTML += row;
+            }
+        }
+
+        // Appel de la fonction pour afficher les événements à venir au chargement de la page
+        window.onload = afficherEvenements;
+    </script>
+</body>
+</html>

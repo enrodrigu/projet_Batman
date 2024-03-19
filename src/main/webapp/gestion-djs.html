@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des DJs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestion des DJs</h1>
+        <form id="djForm">
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" name="nom" required>
+            <label for="prenom">Prénom :</label>
+            <input type="text" id="prenom" name="prenom" required>
+            <label for="nomScene">Nom de scène :</label>
+            <input type="text" id="nomScene" name="nomScene" required>
+            <label for="dateNaissance">Date de naissance :</label>
+            <input type="date" id="dateNaissance" name="dateNaissance" required>
+            <label for="lieuResidence">Lieu de résidence :</label>
+            <input type="text" id="lieuResidence" name="lieuResidence" required>
+            <label for="styleMusical">Style musical :</label>
+            <select id="styleMusical" name="styleMusical" required>
+                <option value="electro">Electro</option>
+                <option value="house">House</option>
+                <option value="hardstyle">Hard Style</option>
+                <option value="edm">EDM</option>
+            </select>
+            <input type="submit" value="Ajouter DJ">
+        </form>
+        <table id="djTable">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Nom de scène</th>
+                    <th>Date de naissance</th>
+                    <th>Lieu de résidence</th>
+                    <th>Style musical</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Les DJs seront ajoutés ici dynamiquement -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        // Script JavaScript pour gérer l'ajout de DJ et l'affichage dans le tableau
+
+        // Fonction pour ajouter un DJ au tableau
+        function ajouterDJ() {
+            // Récupérer les valeurs du formulaire
+            var nom = document.getElementById("nom").value;
+            var prenom = document.getElementById("prenom").value;
+            var nomScene = document.getElementById("nomScene").value;
+            var dateNaissance = document.getElementById("dateNaissance").value;
+            var lieuResidence = document.getElementById("lieuResidence").value;
+            var styleMusical = document.getElementById("styleMusical").value;
+
+            // Créer une nouvelle ligne de tableau avec les données du DJ
+            var row = "<tr><td>" + nom + "</td><td>" + prenom + "</td><td>" + nomScene + "</td><td>" + dateNaissance + "</td><td>" + lieuResidence + "</td><td>" + styleMusical + "</td><td><button onclick='supprimerDJ(this)'>Supprimer</button></td></tr>";
+
+            // Ajouter la nouvelle ligne au tableau
+            document.getElementById("djTable").getElementsByTagName("tbody")[0].innerHTML += row;
+        }
+
+        // Fonction pour supprimer un DJ du tableau
+        function supprimerDJ(btn) {
+            var row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        // Éviter que le formulaire ne se soumette
+        document.getElementById("djForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            ajouterDJ();
+        });
+    </script>
+</body>
+</html>

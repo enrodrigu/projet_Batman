@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 5 des DJs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        ol {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Top 5 des DJs</h1>
+        <ol id="topDJsList">
+            <!-- Les DJs les plus actifs seront ajoutés ici dynamiquement -->
+        </ol>
+    </div>
+    <script>
+        // Script JavaScript pour récupérer et afficher le top 5 des DJs
+
+        // Exemple de données de top DJs (remplacez cela par vos propres données)
+        var topDJs = [
+            { nom: "DJ 1", evenementsPasses: 15 },
+            { nom: "DJ 2", evenementsPasses: 12 },
+            { nom: "DJ 3", evenementsPasses: 10 },
+            { nom: "DJ 4", evenementsPasses: 8 },
+            { nom: "DJ 5", evenementsPasses: 6 }
+        ];
+
+        // Fonction pour afficher le top 5 des DJs dans la liste ordonnée
+        function afficherTopDJs() {
+            var topDJsList = document.getElementById("topDJsList");
+            for (var i = 0; i < topDJs.length && i < 5; i++) {
+                var dj = topDJs[i];
+                var listItem = document.createElement("li");
+                listItem.textContent = dj.nom + " - " + dj.evenementsPasses + " événements passés";
+                topDJsList.appendChild(listItem);
+            }
+        }
+
+        // Appel de la fonction pour afficher le top 5 des DJs au chargement de la page
+        window.onload = afficherTopDJs;
+    </script>
+</body>
+</html>
