@@ -6,14 +6,13 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 
-@Path("/dj-management")
+@Path("/djs")
 public class DjController {
 	
 	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/events")
-	public String events() {
-		return "hello world!";
+	public String event() {
+		return "Récupération des djs";
 	}
 }
