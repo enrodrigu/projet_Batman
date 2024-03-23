@@ -46,10 +46,10 @@ public class DjsDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_DJ)) {
             preparedStatement.setString(1, dj.getNom());
             preparedStatement.setString(2, dj.getPrenom());
-            preparedStatement.setString(2, dj.getNom_scene());
-            preparedStatement.setString(2, dj.getDate_naissance());
-            preparedStatement.setString(2, dj.getLieu_residence());
-            preparedStatement.setString(2, dj.getStyle_musical());
+            preparedStatement.setString(3, dj.getNom_scene());
+            preparedStatement.setString(4, dj.getDate_naissance());
+            preparedStatement.setString(5, dj.getLieu_residence());
+            preparedStatement.setString(6, dj.getStyle_musical());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
