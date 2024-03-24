@@ -1,5 +1,12 @@
 package fr.enssat.batman;
 
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import fr.enssat.batman.evenement.Evenement;
+import fr.enssat.batman.evenement.EvenementsDAO;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
@@ -14,9 +21,16 @@ import jakarta.ws.rs.core.Response;
 public class EventController {
 	
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public String calendar() {
-		return "Récupération des évènements";
+		EvenementsDAO eventsDAO = new EvenementsDAO();
+		List<Evenement> calendar = eventsDAO.getAllEvents();
+		
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		String json = gson.toJson(calendar);
+		
+		return json;
 	}
 	
 	@GET

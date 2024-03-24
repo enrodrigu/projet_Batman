@@ -12,6 +12,10 @@ public class Evenement {
 	private Dj dj;
 	private Lieu lieu;
 	
+	public Evenement() {
+		
+	}
+	
 	public Evenement(Date date, int h_debut, int h_fin, Dj dj, Lieu lieu) {
 		this.date = date;
 		this.h_debut = h_debut;

@@ -8,13 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.enssat.batman.DBManager;
+
 public class DjsDAO {
-
-    // Les détails de la connexion à la base de données
-    private static final String URL = "jdbc:mysql://vps817240.ovh.net:3306/info_batman_schema";
-    private static final String USERNAME = "info_batman";
-    private static final String PASSWORD = "811p!er&Nm6";
-
     // Requêtes SQL
     private static final String SELECT_ALL_DJs = "SELECT * FROM DJ";
     private static final String SELECT_DJ_BY_NAME = "SELECT * FROM DJ WHERE nom_scene = ?";
@@ -25,7 +21,7 @@ public class DjsDAO {
     // Méthode pour récupérer tous les Djs
     public List<Dj> getAllDJs() {
         List<Dj> djs = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection connection = DBManager.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_DJs);
             ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
@@ -48,7 +44,7 @@ public class DjsDAO {
     	// Creation de la variable vide à retourner
     	Dj dj = new Dj();
     	
-        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection connection = DBManager.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_DJ_BY_NAME)) {
         	// Creation de la query complete
         	preparedStatement.setString(1, nom_scene);
@@ -73,7 +69,7 @@ public class DjsDAO {
     
     // Méthode pour insérer un nouvel Dj
     public void addDj(Dj dj) {
-        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection connection = DBManager.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_DJ)) {
             preparedStatement.setString(1, dj.getNom());
             preparedStatement.setString(2, dj.getPrenom());

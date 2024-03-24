@@ -8,12 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LieuxDAO {
+import fr.enssat.batman.DBManager;
 
-    // Les détails de la connexion à la base de données
-    private static final String URL = "jdbc:mysql://vps817240.ovh.net:3306/info_batman_schema";
-    private static final String USERNAME = "info_batman";
-    private static final String PASSWORD = "811p!er&Nm6";
+public class LieuxDAO {
 
     // Requêtes SQL
     private static final String SELECT_ALL_PLACES = "SELECT * FROM Lieu";
@@ -25,7 +22,7 @@ public class LieuxDAO {
     // Méthode pour récupérer tous les Djs
     public List<Lieu> getAllPlaces() {
         List<Lieu> lieux = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection connection = DBManager.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PLACES);
             ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
@@ -46,7 +43,7 @@ public class LieuxDAO {
     	// Creation de la variable vide à retourner
     	Lieu lieu = new Lieu();
     	
-        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection connection = DBManager.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PLACE_BY_NAME)) {
         	// Creation de la query complete
         	preparedStatement.setString(1, nom_lieu);
