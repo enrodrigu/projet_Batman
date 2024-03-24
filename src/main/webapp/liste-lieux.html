@@ -32,8 +32,8 @@
         </ul>
     </div>
     <div class="container">
-    	<br>
-    	<br>
+        <br>
+        <br>
         <h1>Liste des Lieux</h1>
         <br>
         <br>
@@ -53,26 +53,25 @@
         </table>
     </div>
     <script>
-        // Script JavaScript pour récupérer et afficher la liste des lieux
-
-        // Exemple de données de lieux (remplacez cela par vos propres données)
-        var lieux = [
-            { nom: "Lieu 1", ville: "Ville 1", pays: "Pays 1", continent: "Continent 1" },
-            { nom: "Lieu 2", ville: "Ville 2", pays: "Pays 2", continent: "Continent 2" },
-            { nom: "Lieu 3", ville: "Ville 3", pays: "Pays 3", continent: "Continent 3" }
-        ];
-
-        // Fonction pour afficher les lieux dans le tableau
+        // Fonction pour récupérer les lieux depuis l'API et les afficher dans le tableau
         function afficherLieux() {
-            var lieuxTableBody = document.getElementById("lieuxTable").getElementsByTagName("tbody")[0];
-            for (var i = 0; i < lieux.length; i++) {
-                var lieu = lieux[i];
-                var row = "<tr><td>" + lieu.nom + "</td><td>" + lieu.ville + "</td><td>" + lieu.pays + "</td><td>" + lieu.continent + "</td></tr>";
-                lieuxTableBody.innerHTML += row;
-            }
+            // Effectuer une requête AJAX vers l'API pour récupérer les lieux
+            fetch('http://localhost:8080/projet_batman/api/lieux')
+                .then(response => response.json()) // Convertir la réponse en JSON
+                .then(data => {
+                    // Obtenir une référence au corps du tableau des lieux
+                    var lieuxTableBody = document.getElementById("lieuxTable").getElementsByTagName("tbody")[0];
+
+                    // Parcourir les données obtenues et les ajouter au tableau
+                    data.forEach(lieu => {
+                        var row = "<tr><td>" + lieu.nom_lieu + "</td><td>" + lieu.ville + "</td><td>" + lieu.pays + "</td><td>" + lieu.continent + "</td></tr>";
+                        lieuxTableBody.innerHTML += row;
+                    });
+                })
+                .catch(error => console.error('Erreur lors de la récupération des lieux:', error));
         }
 
-        // Appel de la fonction pour afficher les lieux au chargement de la page
+        // Appel de la fonction pour récupérer et afficher les lieux au chargement de la page
         window.onload = afficherLieux;
     </script>
 </body>

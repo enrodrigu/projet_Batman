@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Création de DJ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <a href="index.html" class="container text-bg-success fs-1 p-3 text-center p-0" style="display: block; text-decoration: none;">
+    Gestion des Tournées de DJs
+	</a>
+
+	
+    <div class="container">
+        <div class="navigation">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="gestion-djs.html">Gérer les DJs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="liste-lieux.html">Liste des Lieux</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="planification-evenement.html">Planifier un Événement</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="evenements-a-venir.html">Événements à Venir</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="top-djs.html">Top 5 des DJs</a>
+                </li>
+            </ul>
+        </div>
+
+        <br>
+		<br>
+        <!-- Ajout du bouton de retour -->
+        <a href="gestion-djs.html" class="btn btn-secondary mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M5.354 11.354a.5.5 0 0 0 0-.708L2.707 8.5l2.647-2.646a.5.5 0 0 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
+                <path fill-rule="evenodd" d="M16 8a.5.5 0 0 1-.5.5H3a.5.5 0 0 1 0-1h12.5a.5.5 0 0 1 .5.5z"/>
+            </svg>
+            Retour à la liste des DJs
+        </a>
+        <!-- Fin du bouton de retour -->
+        <h1>Création de DJ</h1>
+        <br>
+		<br>
+
+        <form id="djForm">
+            <div class="mb-3">
+                <label for="nom" class="form-label">Nom :</label>
+                <input type="text" id="nom" name="nom" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="prenom" class="form-label">Prénom :</label>
+                <input type="text" id="prenom" name="prenom" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="nomScene" class="form-label">Nom de scène :</label>
+                <input type="text" id="nomScene" name="nomScene" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="dateNaissance" class="form-label">Date de naissance :</label>
+                <input type="date" id="dateNaissance" name="dateNaissance" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="lieuResidence" class="form-label">Lieu de résidence :</label>
+                <input type="text" id="lieuResidence" name="lieuResidence" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="styleMusical" class="form-label">Style musical :</label>
+                <select id="styleMusical" name="styleMusical" class="form-select" required>
+                    <option value="electro">Electro</option>
+                    <option value="house">House</option>
+                    <option value="hardstyle">Hard Style</option>
+                    <option value="edm">EDM</option>
+                </select>
+            </div>
+            <input type="submit" value="Ajouter DJ" class="btn btn-primary">
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
