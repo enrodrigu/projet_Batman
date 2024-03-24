@@ -1,3 +1,5 @@
+package fr.enssat.batman.dj;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,12 +17,13 @@ public class DjsDAO {
 
     // Requêtes SQL
     private static final String SELECT_ALL_DJs = "SELECT * FROM DJ";
+    private static final String SELECT_DJ_BY_NAME = "SELECT * FROM DJ WHERE nom_scene = ?";
     private static final String INSERT_DJ = "INSERT INTO DJ (nom, prenom, nom_scene, date_naissance, lieu_residence, style_musical) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String EDIT_DJ_BY_ID = "UPDATE DJ SET nom = ?, prenom = ?, nom_scene = ?, date_naissance = ?, lieu_residence = ?, style_musical = ? WHERE nom_scene = ?";
     private static final String DELETE_DJ_BY_ID = "DELETE FROM DJ WHERE nom_scene = ?";
 
     // Méthode pour récupérer tous les Djs
-    public List<Dj> getAllUsers() {
+    public List<Dj> getAllDJs() {
         List<Dj> djs = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_DJs);
@@ -39,7 +42,35 @@ public class DjsDAO {
         }
         return djs;
     }
-
+    
+    // Méthode pour récupérer un DJ selon son nom de scene
+    public Dj getDJ(String nom_scene) {
+    	// Creation de la variable vide à retourner
+    	Dj dj = new Dj();
+    	
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_DJ_BY_NAME)) {
+        	// Creation de la query complete
+        	preparedStatement.setString(1, nom_scene);
+        	//Execution de la query
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            // Recupération des données reçues
+            String nom = resultSet.getString("nom");
+            String prenom = resultSet.getString("prenom");
+            String date_naissance = resultSet.getString("date_naissance");
+            String lieu_residence = resultSet.getString("lieu_residence");
+            String style_musical = resultSet.getString("style_musical");
+            
+            //instanciation de dj
+            dj = new Dj(nom, prenom, nom_scene, date_naissance, lieu_residence, style_musical);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dj;
+    }
+    
+    
     // Méthode pour insérer un nouvel Dj
     public void addDj(Dj dj) {
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);

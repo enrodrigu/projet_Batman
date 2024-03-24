@@ -8,6 +8,10 @@ public class Dj {
 	private String lieu_residence;
 	private String style_musical;
 	
+	public Dj() {
+		
+	}
+	
 	public Dj(String nom, String prenom, String nom_scene, String date_naissance, String lieu_residence, String style_musical) {
 		this.nom = nom;
 		this.prenom = prenom;

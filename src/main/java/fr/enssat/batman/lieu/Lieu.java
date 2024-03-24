@@ -7,8 +7,11 @@ public class Lieu {
 	private String pays;
 	private String continent;
 	
-	public Lieu(int id, String nom_lieu, String ville, String pays, String continent) {
-		this.id = id;
+	public Lieu() {
+		
+	}
+	
+	public Lieu(String nom_lieu, String ville, String pays, String continent) {
 		this.nom_lieu = nom_lieu;
 		this.ville = ville;
 		this.pays = pays;
