@@ -86,4 +86,35 @@ public class DjsDAO {
             e.printStackTrace();
         }
     }
+    
+    // Méthode pour éditer un DJ
+    public void editDj(DJ dj) {
+    	try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            PreparedStatement preparedStatement = connection.prepareStatement(EDIT_DJ_BY_ID)) {
+            preparedStatement.setString(1, dj.getNom());
+            preparedStatement.setString(2, dj.getPrenom());
+            preparedStatement.setString(3, dj.getNom_scene());
+            preparedStatement.setString(4, dj.getDate_naissance());
+            preparedStatement.setString(5, dj.getLieu_residence());
+            preparedStatement.setString(6, dj.getStyle_musical());
+            preparedStatement.setString(7, dj.getNom_scene());
+            preparedStatement.executeUpdate();
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    // Méthode pour supprimer un DJ
+    public void deleteDj(String nom_scene) {
+    	try(Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+    		PreparedStatement preparedStatement = connection.prepareStatement(DELETE_DJ_BY_ID)) {
+    		// Creation de la query complete
+        	preparedStatement.setString(1, nom_scene);
+        	//Execution de la query
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    }
 }
