@@ -85,7 +85,7 @@ public class DjsDAO {
     
     // Méthode pour éditer un DJ
     public void editDj(DJ dj) {
-    	try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+    	try (Connection connection = DBManager.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(EDIT_DJ_BY_ID)) {
             preparedStatement.setString(1, dj.getNom());
             preparedStatement.setString(2, dj.getPrenom());
@@ -102,7 +102,7 @@ public class DjsDAO {
     
     // Méthode pour supprimer un DJ
     public void deleteDj(String nom_scene) {
-    	try(Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+    	try (Connection connection = DBManager.getInstance().getConnection();
     		PreparedStatement preparedStatement = connection.prepareStatement(DELETE_DJ_BY_ID)) {
     		// Creation de la query complete
         	preparedStatement.setString(1, nom_scene);
