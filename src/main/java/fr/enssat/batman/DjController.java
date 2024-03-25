@@ -68,8 +68,12 @@ public class DjController {
        
 	    
         // Logique d'édition de DJ
-        // Y a des erreurs mec, ça fonctionne pas là
-        // djsDAOImpl.editDj(new Dj(json[0],json[1], json[2],json[3],json[4],json[5]));
+        djsDAOImpl.editDj(new Dj(json.get("nom").getAsString(),
+        							json.get("prenom").getAsString(), 
+        							json.get("nom_scene").getAsString(),
+        							json.get("date_naissance").getAsString(),
+        							json.get("lieu_residence").getAsString(),
+        							json.get("style_musical").getAsString()));
 
 	    // Retournez une réponse appropriée
 	    return Response.ok("DJ édité avec succès").build();
