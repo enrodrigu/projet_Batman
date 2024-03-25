@@ -11,6 +11,10 @@ import java.util.List;
 import fr.enssat.batman.DBManager;
 
 public class DjsDAO {
+	
+	public DjsDAO() {
+		
+	}
     // Requêtes SQL
     private static final String SELECT_ALL_DJs = "SELECT * FROM DJ";
     private static final String SELECT_DJ_BY_NAME = "SELECT * FROM DJ WHERE nom_scene = ?";
