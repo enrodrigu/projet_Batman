@@ -88,7 +88,7 @@ public class DjsDAO {
     }
     
     // Méthode pour éditer un DJ
-    public void editDj(DJ dj) {
+    public void editDj(Dj dj) {
     	try (Connection connection = DBManager.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(EDIT_DJ_BY_ID)) {
             preparedStatement.setString(1, dj.getNom());

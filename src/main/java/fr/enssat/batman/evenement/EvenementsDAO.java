@@ -70,11 +70,11 @@ public class EvenementsDAO {
     public void addEvent(Evenement event) {
     	try (Connection connection = DBManager.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EVENT)){
-    		preparedStatement.setDate(0, event.getDate());
-    		preparedStatement.setInt(1, event.getH_debut());
-    		preparedStatement.setInt(2, event.getH_fin());
-    		preparedStatement.setString(3, event.getDj().getNom_scene());
-    		preparedStatement.setString(4, event.getLieu().getNom_lieu());
+    		preparedStatement.setDate(1, event.getDate());
+    		preparedStatement.setInt(2, event.getH_debut());
+    		preparedStatement.setInt(3, event.getH_fin());
+    		preparedStatement.setString(4, event.getDj().getNom_scene());
+    		preparedStatement.setString(5, event.getLieu().getNom_lieu());
     		preparedStatement.executeUpdate();
     		
 		} catch (Exception e) {

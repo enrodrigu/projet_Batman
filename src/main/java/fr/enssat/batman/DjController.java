@@ -1,29 +1,55 @@
 package fr.enssat.batman;
 
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+
+import fr.enssat.batman.dj.Dj;
+import fr.enssat.batman.dj.DjsDAO;
 
 @Path("/djs")
 public class DjController {
 	
-	DjsDAO DjsDAOImpl = new DjsDAO();
+	DjsDAO djsDAOImpl = new DjsDAO();
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Dj> AllDjs() {
-	    return DjsDAO.getAllDJs();
+	public String allDjs() {
+		List<Dj> djs = djsDAOImpl.getAllDJs();
+		
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		String json = gson.toJson(djs);
+		
+		return json;
 	}
 
 	@GET
 	@Path("/nom/{nom_scene}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Dj getDj(@PathParam("nom_scene") String nom_scene) {
-	    return DjsDAO.getDj(nom_scene);
+	public String getDj(@PathParam("nom_scene") String nom_scene) {
+		System.out.println("test");
+		Dj dj = djsDAOImpl.getDJ(nom_scene);
+		
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		String json = gson.toJson(dj);
+		
+		return json;
 	}
 	
 	
@@ -42,8 +68,8 @@ public class DjController {
        
 	    
         // Logique d'édition de DJ
-        // Pas sur que ça fonctionne à tester
-        DjsDAOImpl.editDj(new Dj(json[0],json[1], json[2],json[3],json[4],json[5]));
+        // Y a des erreurs mec, ça fonctionne pas là
+        // djsDAOImpl.editDj(new Dj(json[0],json[1], json[2],json[3],json[4],json[5]));
 
 	    // Retournez une réponse appropriée
 	    return Response.ok("DJ édité avec succès").build();
@@ -51,14 +77,14 @@ public class DjController {
 	
 	@DELETE
 	@Path("/nom/{nom_scene}")
-	@Consumes(MediaType.APPLICATION_APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deleteDJ(@PathParam("nom_scene") String nom_scene) {
 	  
 		// On traite la suppression du DJ
 	    System.out.println("Suppression du DJ de nom : " + nom_scene);
 	        
 	    // Logique de suppression de DJ
-	    DjsDAOImpl.deleteDj(nom_scene);
+	    djsDAOImpl.deleteDj(nom_scene);
 
 	    // Retournez une réponse appropriée
 	    return Response.ok("DJ supprimé avec succès").build();
@@ -77,7 +103,7 @@ public class DjController {
 	    System.out.println("Ajout du DJ de nom : " + nom_scene);
 	        
 	    // Logique d'ajout de DJ
-	    DjsDAOImpl.addDj(new Dj(nom, prenom, nom_scene, date_naissance, lieu_residence, style_musical));
+	    djsDAOImpl.addDj(new Dj(nom, prenom, nom_scene, date_naissance, lieu_residence, style_musical));
 
 	    // Retournez une réponse appropriée
 	    return Response.ok("DJ ajouté avec succès").build();
