@@ -3,44 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>  
     <title>Liste des Lieux</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
 </head>
+
 <body>
+    <a href="index.html" class="container text-bg-success fs-1 p-3 text-center p-0" style="display: block; text-decoration: none;">
+    Gestion des Tournées de DJs
+	</a>
+    <div class="container p-0">
+        <ul class="mx-0 nav nav-tabs">
+            <li class="nav-item">
+            <a class="nav-link" href="gestion-djs.html">Gérer les DJs</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link active" href="liste-lieux.html">Liste des Lieux</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link active" href="planification-evenement.html">Planifier un Événement</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link active" href="evenements-a-venir.html">Événements à Venir</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link active" href="top-djs.html">Top 5 des DJs</a>
+            </li>
+        </ul>
+    </div>
     <div class="container">
+        <br>
+        <br>
         <h1>Liste des Lieux</h1>
+        <br>
+        <br>
+        
         <table id="lieuxTable">
             <thead>
                 <tr>
@@ -56,26 +53,25 @@
         </table>
     </div>
     <script>
-        // Script JavaScript pour récupérer et afficher la liste des lieux
-
-        // Exemple de données de lieux (remplacez cela par vos propres données)
-        var lieux = [
-            { nom: "Lieu 1", ville: "Ville 1", pays: "Pays 1", continent: "Continent 1" },
-            { nom: "Lieu 2", ville: "Ville 2", pays: "Pays 2", continent: "Continent 2" },
-            { nom: "Lieu 3", ville: "Ville 3", pays: "Pays 3", continent: "Continent 3" }
-        ];
-
-        // Fonction pour afficher les lieux dans le tableau
+        // Fonction pour récupérer les lieux depuis l'API et les afficher dans le tableau
         function afficherLieux() {
-            var lieuxTableBody = document.getElementById("lieuxTable").getElementsByTagName("tbody")[0];
-            for (var i = 0; i < lieux.length; i++) {
-                var lieu = lieux[i];
-                var row = "<tr><td>" + lieu.nom + "</td><td>" + lieu.ville + "</td><td>" + lieu.pays + "</td><td>" + lieu.continent + "</td></tr>";
-                lieuxTableBody.innerHTML += row;
-            }
+            // Effectuer une requête AJAX vers l'API pour récupérer les lieux
+            fetch('http://localhost:8080/projet_batman/api/lieux')
+                .then(response => response.json()) // Convertir la réponse en JSON
+                .then(data => {
+                    // Obtenir une référence au corps du tableau des lieux
+                    var lieuxTableBody = document.getElementById("lieuxTable").getElementsByTagName("tbody")[0];
+
+                    // Parcourir les données obtenues et les ajouter au tableau
+                    data.forEach(lieu => {
+                        var row = "<tr><td>" + lieu.nom_lieu + "</td><td>" + lieu.ville + "</td><td>" + lieu.pays + "</td><td>" + lieu.continent + "</td></tr>";
+                        lieuxTableBody.innerHTML += row;
+                    });
+                })
+                .catch(error => console.error('Erreur lors de la récupération des lieux:', error));
         }
 
-        // Appel de la fonction pour afficher les lieux au chargement de la page
+        // Appel de la fonction pour récupérer et afficher les lieux au chargement de la page
         window.onload = afficherLieux;
     </script>
 </body>

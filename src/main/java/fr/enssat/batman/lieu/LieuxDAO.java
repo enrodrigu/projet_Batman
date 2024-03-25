@@ -26,10 +26,10 @@ public class LieuxDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PLACES);
             ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
-                String nom_lieu = resultSet.getString("nom");
-                String ville = resultSet.getString("prenom");
-                String pays = resultSet.getString("nom_scene");
-                String continent = resultSet.getString("date_naissance");
+                String nom_lieu = resultSet.getString("nom_lieu");
+                String ville = resultSet.getString("ville");
+                String pays = resultSet.getString("pays");
+                String continent = resultSet.getString("continent");
                 lieux.add(new Lieu(nom_lieu, ville, pays, continent));
             }
         } catch (SQLException e) {
