@@ -55,7 +55,7 @@
         // Fonction pour récupérer les lieux depuis l'API et les afficher dans le tableau
         function afficherLieux() {
             // Effectuer une requête AJAX vers l'API pour récupérer les lieux
-            fetch('./api/lieux')
+            fetch('./api/lieux',{method:"GET"})
                 .then(response => response.json()) // Convertir la réponse en JSON
                 .then(data => {
                     // Obtenir une référence au corps du tableau des lieux
