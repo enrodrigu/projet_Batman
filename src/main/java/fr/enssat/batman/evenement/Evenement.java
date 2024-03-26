@@ -7,9 +7,8 @@ import fr.enssat.batman.dj.Dj;
 import fr.enssat.batman.lieu.Lieu;
 
 public class Evenement {
-	private Date date;
-	private Time hDebut;
-	private Time hFin;
+	private String dateDebut;
+	private String dateFin;
 	private String nomDj;
 	private String lieu;
 	
@@ -17,36 +16,27 @@ public class Evenement {
 		
 	}
 	
-	public Evenement(Date date, Time hDebut, Time hFin, String nomDj, String lieu) {
-		this.date = date;
-		this.hDebut = hDebut;
-		this.hFin = hFin;
+	public Evenement(String dateDebut, String dateFin, String nomDj, String lieu) {
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
 		this.nomDj = nomDj;
 		this.lieu = lieu;
 	}
 
-	public Date getDate() {
-		return date;
+	public String getDateDebut() {
+		return dateDebut;
+	}
+	
+	public String getDateFin() {
+		return dateFin;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDateFin(String dateFin) {
+		this.dateFin = dateFin;
 	}
 
-	public Time getH_debut() {
-		return hDebut;
-	}
-
-	public void setH_debut(Time h_debut) {
-		this.hDebut = h_debut;
-	}
-
-	public Time getH_fin() {
-		return hFin;
-	}
-
-	public void setH_fin(Time h_fin) {
-		this.hFin = h_fin;
+	public void setDateDebut(String dateDebut) {
+		this.dateDebut = dateDebut;
 	}
 
 	public String getDj() {

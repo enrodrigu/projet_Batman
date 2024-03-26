@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des DJs</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>
 <body>
     <a href="./" class="container text-bg-success fs-1 p-3 text-center p-0" style="display: block; text-decoration: none;">
@@ -47,7 +49,7 @@
                     <th>Date de naissance</th>
                     <th>Lieu de résidence</th>
                     <th>Style musical</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,17 +57,17 @@
             </tbody>
         </table>
     </div>
-    <script>
-	 	// Fonction pour récupérer les DJs depuis l'API et les afficher dans le tableau
+	<script>
+	    // Fonction pour récupérer les DJs depuis l'API et les afficher dans le tableau
 	    function printAllDjs() {
-
+	
 	        fetch('./api/djs', { method: 'GET' })
 	            .then(response => response.json()) // Convertir la réponse en JSON
 	            .then(data => {
 	                var djsTableBody = document.getElementById("djTable").getElementsByTagName('tbody')[0];
-
+	
 	                data.forEach(dj => {
-	                    var row = "<tr><td>" + dj.nom + "</td><td>" + dj.prenom + "</td><td>" + dj.nomScene + "</td><td>" + dj.dateNaissance + "</td><td>" + dj.lieuResidence + "</td><td>" + dj.styleMusical + "</td></tr>";
+	                    var row = "<tr><td>" + dj.nom + "</td><td>" + dj.prenom + "</td><td>" + dj.nomScene + "</td><td>" + dj.dateNaissance + "</td><td>" + dj.lieuResidence + "</td><td>" + dj.styleMusical + "</td><td><a href='modification-dj.html' class='btn btn-warning btn-sm'><i class='bi bi-pencil-square'></i></a> <a href='suppression-dj.html' class='btn btn-danger btn-sm'><i class='bi bi-trash'></i></a></td></tr>";
 	                    djsTableBody.innerHTML += row;
 	                });
 	            })
@@ -74,7 +76,8 @@
 	
 	    // Appel de la fonction pour récupérer et afficher les DJs au chargement de la page
 	    window.onload = printAllDjs;
-    </script>
+	</script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

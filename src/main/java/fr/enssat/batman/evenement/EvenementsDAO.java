@@ -32,12 +32,17 @@ public class EvenementsDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_Events);
             ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
-                Date date = resultSet.getDate("date");
-                Time h_debut = resultSet.getTime("h_debut");
-                Time h_fin = resultSet.getTime("h_fin");
+                String date_debut = resultSet.getString("date_debut_evenement");
+                String date_fin = resultSet.getString("date_fin_evenement");
                 String dj = resultSet.getString("DJ");
-                String nom_lieu = resultSet.getString("lieu");
-                events.add(new Evenement(date, h_debut, h_fin, dj, nom_lieu));
+                String nom_lieu = resultSet.getString("lieu_evenement");
+                
+                // Convertir les dates et heures en chaînes de caractères dans le format ISO 8601
+                //String isoDate = date.toLocalDate().toString();
+                
+                events.add(new Evenement(date_debut, date_fin, dj, nom_lieu));
+                //events.add(new Evenement(isoDate, h_debut.toLocalTime(), h_fin.toLocalTime(), dj, nom_lieu));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
