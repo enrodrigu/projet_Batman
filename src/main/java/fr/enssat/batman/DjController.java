@@ -34,7 +34,6 @@ public class DjController {
 		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.create();
 		String json = gson.toJson(djs);
-		System.out.println(json);
 		return json;
 	}
 

@@ -1,26 +1,27 @@
 package fr.enssat.batman.evenement;
 
 import java.sql.Date;
+import java.sql.Time;
 
 import fr.enssat.batman.dj.Dj;
 import fr.enssat.batman.lieu.Lieu;
 
 public class Evenement {
 	private Date date;
-	private int h_debut;
-	private int h_fin;
-	private Dj dj;
-	private Lieu lieu;
+	private Time hDebut;
+	private Time hFin;
+	private String nomDj;
+	private String lieu;
 	
 	public Evenement() {
 		
 	}
 	
-	public Evenement(Date date, int h_debut, int h_fin, Dj dj, Lieu lieu) {
+	public Evenement(Date date, Time hDebut, Time hFin, String nomDj, String lieu) {
 		this.date = date;
-		this.h_debut = h_debut;
-		this.h_fin = h_fin;
-		this.dj = dj;
+		this.hDebut = hDebut;
+		this.hFin = hFin;
+		this.nomDj = nomDj;
 		this.lieu = lieu;
 	}
 
@@ -32,35 +33,35 @@ public class Evenement {
 		this.date = date;
 	}
 
-	public int getH_debut() {
-		return h_debut;
+	public Time getH_debut() {
+		return hDebut;
 	}
 
-	public void setH_debut(int h_debut) {
-		this.h_debut = h_debut;
+	public void setH_debut(Time h_debut) {
+		this.hDebut = h_debut;
 	}
 
-	public int getH_fin() {
-		return h_fin;
+	public Time getH_fin() {
+		return hFin;
 	}
 
-	public void setH_fin(int h_fin) {
-		this.h_fin = h_fin;
+	public void setH_fin(Time h_fin) {
+		this.hFin = h_fin;
 	}
 
-	public Dj getDj() {
-		return dj;
+	public String getDj() {
+		return nomDj;
 	}
 
-	public void setDj(Dj dj) {
-		this.dj = dj;
+	public void setDj(String dj) {
+		this.nomDj = dj;
 	}
 
-	public Lieu getLieu() {
+	public String getLieu() {
 		return lieu;
 	}
 
-	public void setLieu(Lieu lieu) {
+	public void setLieu(String lieu) {
 		this.lieu = lieu;
 	}
 	

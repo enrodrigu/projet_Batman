@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +33,11 @@ public class EvenementsDAO {
             ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 Date date = resultSet.getDate("date");
-                int h_debut = resultSet.getInt("h_debut");
-                int h_fin = resultSet.getInt("h_fin");
+                Time h_debut = resultSet.getTime("h_debut");
+                Time h_fin = resultSet.getTime("h_fin");
                 String dj = resultSet.getString("DJ");
                 String nom_lieu = resultSet.getString("lieu");
-                events.add(new Evenement(date, h_debut, h_fin, new DjsDAO().getDJ(dj), new LieuxDAO().getLieu(nom_lieu)));
+                events.add(new Evenement(date, h_debut, h_fin, dj, nom_lieu));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,23 +45,23 @@ public class EvenementsDAO {
         return events;
     }
     
-    public Evenement getEventById(Date date, Dj dj) {
+    public Evenement getEventById(Date date, String nomDj) {
     	Evenement event = new Evenement();
     	try (Connection connection = DBManager.getInstance().getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EVENT_BY_ID)) {
             	// Creation de la query complete
             	preparedStatement.setDate(1, date);
-            	preparedStatement.setString(2, dj.getNomScene());
+            	preparedStatement.setString(2, nomDj);
             	//Execution de la query
                 ResultSet resultSet = preparedStatement.executeQuery();
                 
                 // Recupération des données reçues
-                int h_debut = resultSet.getInt("h_debut");
-                int h_fin = resultSet.getInt("h_fin");
+                Time h_debut = resultSet.getTime("h_debut");
+                Time h_fin = resultSet.getTime("h_fin");
                 String nom_lieu = resultSet.getString("lieu");
                 
                 //instanciation de dj
-                event = new Evenement(date, h_debut, h_fin, dj, new LieuxDAO().getLieu(nom_lieu));
+                event = new Evenement(date, h_debut, h_fin, nomDj, nom_lieu);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -71,10 +72,10 @@ public class EvenementsDAO {
     	try (Connection connection = DBManager.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EVENT)){
     		preparedStatement.setDate(1, event.getDate());
-    		preparedStatement.setInt(2, event.getH_debut());
-    		preparedStatement.setInt(3, event.getH_fin());
-    		preparedStatement.setString(4, event.getDj().getNomScene());
-    		preparedStatement.setString(5, event.getLieu().getNom_lieu());
+    		preparedStatement.setTime(2, event.getH_debut());
+    		preparedStatement.setTime(3, event.getH_fin());
+    		preparedStatement.setString(4, event.getDj());
+    		preparedStatement.setString(5, event.getLieu());
     		preparedStatement.executeUpdate();
     		
 		} catch (Exception e) {
