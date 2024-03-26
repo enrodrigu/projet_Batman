@@ -34,16 +34,16 @@ public class DjController {
 		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.create();
 		String json = gson.toJson(djs);
-		
+		System.out.println(json);
 		return json;
 	}
 
 	@GET
-	@Path("/nom/{nom_scene}")
+	@Path("/nom/{nomScene}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getDj(@PathParam("nom_scene") String nom_scene) {
+	public String getDj(@PathParam("nomScene") String nomScene) {
 		System.out.println("test");
-		Dj dj = djsDAOImpl.getDJ(nom_scene);
+		Dj dj = djsDAOImpl.getDJ(nomScene);
 		
 		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.create();
@@ -54,12 +54,12 @@ public class DjController {
 	
 	
 	@PATCH
-	@Path("/nom/{nom_scene}")
+	@Path("/nom/{nomScene}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response editDJ(@PathParam("nom_scene") String nom_scene, String jsonBody) {
+	public Response editDJ(@PathParam("nomScene") String nomScene, String jsonBody) {
 	  
 		// On traite la mise à jour des données du DJ
-	    System.out.println("Édition du DJ de nom : " + nom_scene);
+	    System.out.println("Édition du DJ de nom : " + nomScene);
 	    System.out.println("Corps de la requête JSON : " + jsonBody);
 	        
 	    // On parse la String Json
@@ -70,25 +70,25 @@ public class DjController {
         // Logique d'édition de DJ
         djsDAOImpl.editDj(new Dj(json.get("nom").getAsString(),
         							json.get("prenom").getAsString(), 
-        							json.get("nom_scene").getAsString(),
-        							json.get("date_naissance").getAsString(),
-        							json.get("lieu_residence").getAsString(),
-        							json.get("style_musical").getAsString()));
+        							json.get("nomScene").getAsString(),
+        							json.get("dateNaissance").getAsString(),
+        							json.get("lieuResidence").getAsString(),
+        							json.get("styleMusical").getAsString()));
 
 	    // Retournez une réponse appropriée
 	    return Response.ok("DJ édité avec succès").build();
 	}
 	
 	@DELETE
-	@Path("/nom/{nom_scene}")
+	@Path("/nom/{nomScene}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteDJ(@PathParam("nom_scene") String nom_scene) {
+	public Response deleteDJ(@PathParam("nomScene") String nomScene) {
 	  
 		// On traite la suppression du DJ
-	    System.out.println("Suppression du DJ de nom : " + nom_scene);
+	    System.out.println("Suppression du DJ de nom : " + nomScene);
 	        
 	    // Logique de suppression de DJ
-	    djsDAOImpl.deleteDj(nom_scene);
+	    djsDAOImpl.deleteDj(nomScene);
 
 	    // Retournez une réponse appropriée
 	    return Response.ok("DJ supprimé avec succès").build();
@@ -98,16 +98,16 @@ public class DjController {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response addDj(@FormParam("nom") String nom, 
 							@FormParam("prenom") String prenom,
-							@FormParam("nom_scene") String nom_scene, 
-							@FormParam("date_naissance") String date_naissance, 
-							@FormParam("lieu_residence") String lieu_residence, 
-							@FormParam("style_musical") String style_musical) {
+							@FormParam("nomScene") String nomScene, 
+							@FormParam("dateNaissance") String dateNaissance, 
+							@FormParam("lieuResidence") String lieuResidence, 
+							@FormParam("styleMusical") String styleMusical) {
 	  
 		// On traite l'ajout du DJ
-	    System.out.println("Ajout du DJ de nom : " + nom_scene);
+	    System.out.println("Ajout du DJ de nom de scène : " + nomScene);
 	        
 	    // Logique d'ajout de DJ
-	    djsDAOImpl.addDj(new Dj(nom, prenom, nom_scene, date_naissance, lieu_residence, style_musical));
+	    djsDAOImpl.addDj(new Dj(nom, prenom, nomScene, dateNaissance, lieuResidence, styleMusical));
 
 	    // Retournez une réponse appropriée
 	    return Response.ok("DJ ajouté avec succès").build();

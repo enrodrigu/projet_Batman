@@ -1,7 +1,6 @@
 package fr.enssat.batman.dj;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,11 +30,11 @@ public class DjsDAO {
             while (resultSet.next()) {
                 String nom = resultSet.getString("nom");
                 String prenom = resultSet.getString("prenom");
-                String nom_scene = resultSet.getString("nom_scene");
-                String date_naissance = resultSet.getString("date_naissance");
-                String lieu_residence = resultSet.getString("lieu_residence");
-                String style_musical = resultSet.getString("style_musical");
-                djs.add(new Dj(nom, prenom, nom_scene, date_naissance, lieu_residence, style_musical));
+                String nomScene = resultSet.getString("nom_scene");
+                String dateNaissance = resultSet.getString("date_naissance");
+                String lieuResidence = resultSet.getString("lieu_residence");
+                String styleMusical = resultSet.getString("style_musical");
+                djs.add(new Dj(nom, prenom, nomScene, dateNaissance, lieuResidence, styleMusical));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,26 +43,26 @@ public class DjsDAO {
     }
     
     // Méthode pour récupérer un DJ selon son nom de scene
-    public Dj getDJ(String nom_scene) {
+    public Dj getDJ(String nomScene) {
     	// Creation de la variable vide à retourner
     	Dj dj = new Dj();
     	
         try (Connection connection = DBManager.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_DJ_BY_NAME)) {
         	// Creation de la query complete
-        	preparedStatement.setString(1, nom_scene);
+        	preparedStatement.setString(1, nomScene);
         	//Execution de la query
             ResultSet resultSet = preparedStatement.executeQuery();
             
             // Recupération des données reçues
             String nom = resultSet.getString("nom");
             String prenom = resultSet.getString("prenom");
-            String date_naissance = resultSet.getString("date_naissance");
-            String lieu_residence = resultSet.getString("lieu_residence");
-            String style_musical = resultSet.getString("style_musical");
+            String dateNaissance = resultSet.getString("date_naissance");
+            String lieuResidence = resultSet.getString("lieu_residence");
+            String styleMusical = resultSet.getString("style_musical");
             
             //instanciation de dj
-            dj = new Dj(nom, prenom, nom_scene, date_naissance, lieu_residence, style_musical);
+            dj = new Dj(nom, prenom, nomScene, dateNaissance, lieuResidence, styleMusical);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,10 +76,10 @@ public class DjsDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_DJ)) {
             preparedStatement.setString(1, dj.getNom());
             preparedStatement.setString(2, dj.getPrenom());
-            preparedStatement.setString(3, dj.getNom_scene());
-            preparedStatement.setString(4, dj.getDate_naissance());
-            preparedStatement.setString(5, dj.getLieu_residence());
-            preparedStatement.setString(6, dj.getStyle_musical());
+            preparedStatement.setString(3, dj.getNomScene());
+            preparedStatement.setString(4, dj.getDateNaissance());
+            preparedStatement.setString(5, dj.getLieuResidence());
+            preparedStatement.setString(6, dj.getStyleMusical());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,11 +92,11 @@ public class DjsDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(EDIT_DJ_BY_ID)) {
             preparedStatement.setString(1, dj.getNom());
             preparedStatement.setString(2, dj.getPrenom());
-            preparedStatement.setString(3, dj.getNom_scene());
-            preparedStatement.setString(4, dj.getDate_naissance());
-            preparedStatement.setString(5, dj.getLieu_residence());
-            preparedStatement.setString(6, dj.getStyle_musical());
-            preparedStatement.setString(7, dj.getNom_scene());
+            preparedStatement.setString(3, dj.getNomScene());
+            preparedStatement.setString(4, dj.getDateNaissance());
+            preparedStatement.setString(5, dj.getLieuResidence());
+            preparedStatement.setString(6, dj.getStyleMusical());
+            preparedStatement.setString(7, dj.getNomScene());
             preparedStatement.executeUpdate();
     	} catch (SQLException e) {
     		e.printStackTrace();
@@ -105,13 +104,13 @@ public class DjsDAO {
     }
     
     // Méthode pour supprimer un DJ
-    public void deleteDj(String nom_scene) {
+    public void deleteDj(String nomScene) {
     	try (Connection connection = DBManager.getInstance().getConnection();
     		PreparedStatement preparedStatement = connection.prepareStatement(DELETE_DJ_BY_ID)) {
     		// Creation de la query complete
-        	preparedStatement.setString(1, nom_scene);
+        	preparedStatement.setString(1, nomScene);
         	//Execution de la query
-            ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement.executeQuery();
             
     	} catch (SQLException e) {
     		e.printStackTrace();

@@ -50,7 +50,7 @@ public class EvenementsDAO {
                 PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EVENT_BY_ID)) {
             	// Creation de la query complete
             	preparedStatement.setDate(1, date);
-            	preparedStatement.setString(2, dj.getNom_scene());
+            	preparedStatement.setString(2, dj.getNomScene());
             	//Execution de la query
                 ResultSet resultSet = preparedStatement.executeQuery();
                 
@@ -73,7 +73,7 @@ public class EvenementsDAO {
     		preparedStatement.setDate(1, event.getDate());
     		preparedStatement.setInt(2, event.getH_debut());
     		preparedStatement.setInt(3, event.getH_fin());
-    		preparedStatement.setString(4, event.getDj().getNom_scene());
+    		preparedStatement.setString(4, event.getDj().getNomScene());
     		preparedStatement.setString(5, event.getLieu().getNom_lieu());
     		preparedStatement.executeUpdate();
     		

@@ -48,7 +48,7 @@
         <br>
 		<br>
 
-        <form id="djForm">
+        <form id="djForm" action="./api/djs" method="POST">
             <div class="mb-3">
                 <label for="nom" class="form-label">Nom :</label>
                 <input type="text" id="nom" name="nom" class="form-control" required>
@@ -81,6 +81,39 @@
             <input type="submit" value="Ajouter DJ" class="btn btn-primary">
         </form>
     </div>
+    <script>
+		document.getElementById('djForm').addEventListener('submit', function(event){
+			console.log("bouton appuyé!");
+			event.preventDefault();
+			const formData = new FormData(this); // Récupère les données du formulaire
+			
+			// Construire les données du formulaire au format application/x-www-form-urlencoded
+	        const urlEncodedData = new URLSearchParams(formData).toString();
+
+			
+			console.log(urlEncodedData);
+	        fetch('./api/djs', {
+	            method: 'POST',
+	            body: urlEncodedData,
+	            headers: {
+	                'Content-Type': 'application/x-www-form-urlencoded'
+	            }
+	        })
+	        .then(response => {
+	            if (!response.ok) {
+	                throw new Error('Erreur lors de l\'ajout du DJ');
+	            }
+	            return response.text();
+	        })
+	        .then(data => {
+	            console.log(data); // Affiche la réponse du serveur dans la console
+
+	        })
+	        .catch(error => {
+	            console.error('Erreur:', error);
+	        });
+	    });
+	</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
