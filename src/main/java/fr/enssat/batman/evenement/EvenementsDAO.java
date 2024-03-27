@@ -57,6 +57,7 @@ public class EvenementsDAO {
             	//Execution de la query
             	System.out.println(preparedStatement);
                 ResultSet resultSet = preparedStatement.executeQuery();
+                resultSet.next();
                 
                 // Recupération des données reçues
                 
