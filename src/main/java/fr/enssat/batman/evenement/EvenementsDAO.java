@@ -20,8 +20,8 @@ public class EvenementsDAO {
     
     // Requêtes SQL
     private static final String SELECT_ALL_Events = "SELECT * FROM Evenement";
-    private static final String SELECT_EVENT_BY_ID = "SELECT * FROM Evenement WHERE date = ? AND DJ = ?";
-    private static final String INSERT_EVENT = "INSERT INTO Evenement (date, h_debut, h_fin, DJ, lieu) VALUES (?, ?, ?, ?, ?)";
+    private static final String SELECT_EVENT_BY_ID = "SELECT * FROM Evenement WHERE date_debut_evenement = ? AND DJ = ?";
+    private static final String INSERT_EVENT = "INSERT INTO Evenement (date_debut_evenement, date_fin_evenement, DJ, lieu_evenement, ville_evenement) VALUES (?, ?, ?, ?, ?)";
     private static final String EDIT_EVENT_BY_ID = "UPDATE Evenement SET date = ?, h_debut = ?, h_fin = ?, DJ = ?, lieu = ? WHERE (date, DJ) = ?";
     private static final String DELETE_EVENT_BY_ID = "DELETE FROM DJ WHERE (date, DJ) = ?";
     
@@ -32,16 +32,13 @@ public class EvenementsDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_Events);
             ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
-                String date_debut = resultSet.getString("date_debut_evenement");
-                String date_fin = resultSet.getString("date_fin_evenement");
+                String dateDebut = resultSet.getString("date_debut_evenement");
+                String dateFin = resultSet.getString("date_fin_evenement");
                 String dj = resultSet.getString("DJ");
-                String nom_lieu = resultSet.getString("lieu_evenement");
+                String nomLieu = resultSet.getString("lieu_evenement");
+                String ville = resultSet.getString("ville_evenement");
                 
-                // Convertir les dates et heures en chaînes de caractères dans le format ISO 8601
-                //String isoDate = date.toLocalDate().toString();
-                
-                events.add(new Evenement(date_debut, date_fin, dj, nom_lieu));
-                //events.add(new Evenement(isoDate, h_debut.toLocalTime(), h_fin.toLocalTime(), dj, nom_lieu));
+                events.add(new Evenement(dateDebut, dateFin, dj, nomLieu, ville));
 
             }
         } catch (SQLException e) {
@@ -50,23 +47,25 @@ public class EvenementsDAO {
         return events;
     }
     
-    public Evenement getEventById(Date date, String nomDj) {
+    public Evenement getEventById(String dateDebut, String nomDj) {
     	Evenement event = new Evenement();
     	try (Connection connection = DBManager.getInstance().getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EVENT_BY_ID)) {
             	// Creation de la query complete
-            	preparedStatement.setDate(1, date);
+            	preparedStatement.setString(1, dateDebut);
             	preparedStatement.setString(2, nomDj);
             	//Execution de la query
+            	System.out.println(preparedStatement);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 
                 // Recupération des données reçues
-                Time h_debut = resultSet.getTime("h_debut");
-                Time h_fin = resultSet.getTime("h_fin");
-                String nom_lieu = resultSet.getString("lieu");
+                
+                String dateFin = resultSet.getString("date_fin_evenement");
+                String nomLieu = resultSet.getString("lieu_evenement");
+                String ville = resultSet.getString("ville_evenement");
                 
                 //instanciation de dj
-                event = new Evenement(date, h_debut, h_fin, nomDj, nom_lieu);
+                event = new Evenement(dateDebut, dateFin, nomDj, nomLieu, ville);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -76,11 +75,11 @@ public class EvenementsDAO {
     public void addEvent(Evenement event) {
     	try (Connection connection = DBManager.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EVENT)){
-    		preparedStatement.setDate(1, event.getDate());
-    		preparedStatement.setTime(2, event.getH_debut());
-    		preparedStatement.setTime(3, event.getH_fin());
-    		preparedStatement.setString(4, event.getDj());
-    		preparedStatement.setString(5, event.getLieu());
+    		preparedStatement.setString(1, event.getDateDebut());
+    		preparedStatement.setString(2, event.getDateFin());
+    		preparedStatement.setString(3, event.getDj());
+    		preparedStatement.setString(4, event.getLieu());
+    		preparedStatement.setString(5, event.getVille());
     		preparedStatement.executeUpdate();
     		
 		} catch (Exception e) {

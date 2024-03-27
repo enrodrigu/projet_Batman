@@ -17,13 +17,13 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/events")
+@Path("/evenements")
 public class EventController {
+	EvenementsDAO eventsDAO = new EvenementsDAO();
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String calendar() {
-		EvenementsDAO eventsDAO = new EvenementsDAO();
 		List<Evenement> calendar = eventsDAO.getAllEvents();
 		
 		GsonBuilder builder = new GsonBuilder();
@@ -34,11 +34,19 @@ public class EventController {
 	}
 	
 	@GET
-	@Path("/{date}/{dj_name}")
+	@Path("/{date}/{nomScene}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String event(@PathParam("date") String date,
-						@PathParam("dj_name") String dj_name) {
-		return "Évènement récupéré";
+						@PathParam("nomScene") String nomScene) {
+		
+		System.out.println(date + nomScene);
+		Evenement event = eventsDAO.getEventById(date, nomScene);
+		
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		String json = gson.toJson(event);
+		
+		return json;
 	}
 	
 	@POST

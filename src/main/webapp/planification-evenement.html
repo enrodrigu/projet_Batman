@@ -72,8 +72,8 @@
             // Populate select element with options
             data.forEach(dj => {
                 const option = document.createElement('option');
-                option.text = dj.nom_scene;
-                option.value = dj.nom_scene;
+                option.text = dj.nomScene;
+                option.value = dj.nomScene;
           	      selectElement.appendChild(option);
             });
         })
@@ -94,40 +94,6 @@
         });
     })
     .catch(error => console.error('Error fetching data:', error));
-	</script>
-	<script>
-	    // Fetch data from API
-	    fetch('./api/djs')
-	        .then(response => response.json())
-	        .then(data => {
-	            // Select the dropdown element
-	            const selectElement = document.getElementById('dj');
-	
-	            // Populate select element with options
-	            data.forEach(dj => {
-	                const option = document.createElement('option');
-	                option.text = dj.nomScene;
-	                option.value = dj.nomScene;
-	                selectElement.appendChild(option);
-	            });
-	        })
-	        .catch(error => console.error('Error fetching data:', error));
-	    
-	    fetch('./api/lieux')
-	    .then(response => response.json())
-	    .then(data => {
-	        // Select the dropdown element
-	        const selectElement = document.getElementById('lieu');
-	
-	        // Populate select element with options
-	        data.forEach(lieu => {
-	            const option = document.createElement('option');
-	            option.text = lieu.nom_lieu+", "+lieu.ville;
-	            option.value = lieu.nom_scene+"_"+lieu.ville;
-	            selectElement.appendChild(option);
-	        });
-	    })
-	    .catch(error => console.error('Error fetching data:', error));
 	</script>
 	
 </body>
