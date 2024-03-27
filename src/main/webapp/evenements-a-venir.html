@@ -14,21 +14,7 @@
     <div class="container">
         <div class="navigation">
             <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link" href="gestion-djs.html">Gérer les DJs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="liste-lieux.html">Liste des Lieux</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="planification-evenement.html">Planifier un Événement</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="evenements-a-venir.html">Événements à Venir</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="top-djs.html">Top 5 des DJs</a>
-                </li>
+                <!-- Vos liens de navigation ici -->
             </ul>
         </div>
 
@@ -43,35 +29,54 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                eventTimeFormat: { // format d'affichage de l'heure
-                	hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false // Désactiver le format 12 heures
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            eventTimeFormat: { // Format d'affichage de l'heure des événements
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false // Désactiver le format 12 heures
+            },
+            displayEventTime: true, // Afficher l'heure des événements
+            events: {
+                url: './api/evenements',
+                method: 'GET',
+                failure: function() {
+                    alert('Erreur lors du chargement des événements !');
                 },
-                events: {
-                    url: './api/evenements',
-                    method: 'GET',
-                    failure: function() {
-                        alert('Erreur lors du chargement des événements !');
-                    },
-                    success: function(events) {
-                        var formattedEvents = events.map(function(event) {
-                            return {
-                                title: event.lieu + ' - ' + event.nomDj,
-                                start: event.dateDebut,
-                                hour12: false // Désactiver le format 12 heures
-                            };
-                        });
-                        return formattedEvents;
-                    }
+                success: function(events) {
+                    var formattedEvents = events.map(function(event) {
+                        return {
+                            title: event.nomDj + ' - ' + event.lieu + ' (' + event.ville + ')',
+                            start: event.dateDebut,
+                            end: event.dateFin
+                        };
+                    });
+                    return formattedEvents;
                 }
-            });
-            calendar.render();
+            },
+            eventDidMount: function(info) {
+                var event = info.event;
+                var tooltipContent = event.title + '\n' +
+                    'Début: ' + event.start.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) + '\n' +
+                    'Fin: ' + event.end.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+
+                var tooltip = new bootstrap.Tooltip(info.el, {
+                    title: tooltipContent,
+                    placement: 'top',
+                    trigger: 'hover',
+                    container: 'body',
+                    delay: { "show": 500, "hide": 100 }
+                });
+            }
         });
+        calendar.render();
+    });
+
+
+
+
     </script>
 </body>
 </html>

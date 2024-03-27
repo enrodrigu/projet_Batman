@@ -1,11 +1,5 @@
 package fr.enssat.batman.evenement;
 
-import java.sql.Date;
-import java.sql.Time;
-
-import fr.enssat.batman.dj.Dj;
-import fr.enssat.batman.lieu.Lieu;
-
 public class Evenement {
 	private String dateDebut;
 	private String dateFin;
