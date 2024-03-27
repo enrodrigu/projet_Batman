@@ -6,6 +6,7 @@
     <title>Gestion des DJs</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+	
 
 </head>
 <body>
@@ -67,15 +68,83 @@
 	                var djsTableBody = document.getElementById("djTable").getElementsByTagName('tbody')[0];
 	
 	                data.forEach(dj => {
-	                    var row = "<tr><td>" + dj.nom + "</td><td>" + dj.prenom + "</td><td>" + dj.nomScene + "</td><td>" + dj.dateNaissance + "</td><td>" + dj.lieuResidence + "</td><td>" + dj.styleMusical + "</td><td><a href='modification-dj.html' class='btn btn-warning btn-sm'><i class='bi bi-pencil-square'></i></a> <a href='suppression-dj.html' class='btn btn-danger btn-sm'><i class='bi bi-trash'></i></a></td></tr>";
+	                    var row = "<tr><td>" + dj.nom + "</td><td>" + dj.prenom + "</td><td>" + dj.nomScene + "</td><td>" + dj.dateNaissance + "</td><td>" + dj.lieuResidence + "</td><td>" + dj.styleMusical + "</td><td><button class='btn-edit btn btn-warning btn-sm' onclick='toggleEdit(this)'>Éditer</button> <button class='btn-save btn btn-success btn-sm' style='display: none;' onclick='saveChanges(this)'>Enregistrer</button> <button class='btn btn-danger btn-sm' onclick='deleteDj(\"" + dj.nomScene + "\")'><i class='bi bi-trash'></i></button></td></tr>";
 	                    djsTableBody.innerHTML += row;
 	                });
 	            })
 	            .catch(error => console.error('Erreur lors de la récupération des DJs:', error));
 	    }
 	
+	    // Fonction pour supprimer les DJs depuis l'API et actualiser le tableau
+	    function deleteDj(nomScene) {
+		    fetch('./api/djs/nom/' + nomScene, { method: 'DELETE' })
+		        .then(response => {
+		            if (response.ok) {
+		                // La suppression a réussi, aucune action nécessaire
+		            } else {
+		                // La suppression a échoué, afficher un message d'erreur ou journaliser l'erreur
+		                console.error('Erreur lors de la suppression du DJ:', response.statusText);
+		            }
+		        })
+		        .catch(error => console.error('Erreur lors de la suppression du DJ:', error));
+		}
+
+	    	
 	    // Appel de la fonction pour récupérer et afficher les DJs au chargement de la page
 	    window.onload = printAllDjs;
+	    
+	 	// Fonction pour basculer entre l'édition et l'affichage des données
+	    function toggleEdit(button) {
+	    	// Change l'icône du bouton en coche (enregistrer)
+	        button.innerHTML = '<i class="bi bi-check-circle-fill"></i>';
+	        // Cache le bouton "Éditer"
+	        button.style.display = "none";
+	        // Affiche le bouton "Enregistrer"
+	        button.nextElementSibling.style.display = "inline-block";
+
+	        // Sélectionne la ligne du DJ
+	        var row = button.closest('tr');
+	        // Sélectionne toutes les cellules de la ligne, sauf la dernière (qui contient les boutons)
+	        var cells = row.querySelectorAll('td:not(:last-child)');
+	        // Parcourt chaque cellule
+	        cells.forEach(function(cell) {
+	            // Vérifie si la cellule contient déjà un input (pour éviter de les créer à chaque clic)
+	            if (!cell.querySelector('input')) {
+	                // Récupère la valeur actuelle de la cellule
+	                var currentValue = cell.textContent.trim();
+	                // Remplace le contenu de la cellule par un input contenant la valeur actuelle
+	                cell.innerHTML = '<input type="text" value="' + currentValue + '">';
+	            }
+	        });
+	     	// Change l'icône du bouton en stylo (éditer)
+	        button.innerHTML = '<i class="bi bi-pencil-fill"></i>';
+	    }
+
+
+	 	// Fonction pour enregistrer les modifications
+	    function saveChanges(button) {
+	    	// Change l'icône du bouton en stylo (éditer)
+	        button.innerHTML = '<i class="bi bi-pencil-fill"></i>';
+	        // Cache le bouton "Enregistrer"
+	        button.style.display = "none";
+	        // Affiche le bouton "Éditer"
+	        button.previousElementSibling.style.display = "inline-block";
+
+	        // Sélectionne la ligne du DJ
+	        var row = button.closest('tr');
+	        // Sélectionne toutes les cellules de la ligne, sauf la dernière (qui contient les boutons)
+	        var cells = row.querySelectorAll('td:not(:last-child)');
+	        // Parcourt chaque cellule
+	        cells.forEach(function(cell) {
+	            // Sélectionne l'input dans la cellule
+	            var input = cell.querySelector('input');
+	            // Remplace le contenu de la cellule par la valeur de l'input
+	            cell.textContent = input.value;
+	        });
+	     // Change l'icône du bouton en coche (enregistrer)
+	        button.innerHTML = '<i class="bi bi-check-circle-fill"></i>';
+	    }
+
 	</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

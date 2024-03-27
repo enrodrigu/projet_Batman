@@ -110,7 +110,7 @@ public class DjsDAO {
     		// Creation de la query complete
         	preparedStatement.setString(1, nomScene);
         	//Execution de la query
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             
     	} catch (SQLException e) {
     		e.printStackTrace();
