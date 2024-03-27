@@ -3,11 +3,13 @@ package fr.enssat.batman.dj;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.enssat.batman.DBManager;
+import fr.enssat.batman.Pair;
 
 public class DjsDAO {
 	
@@ -20,6 +22,7 @@ public class DjsDAO {
     private static final String INSERT_DJ = "INSERT INTO DJ (nom, prenom, nom_scene, date_naissance, lieu_residence, style_musical) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String EDIT_DJ_BY_ID = "UPDATE DJ SET nom = ?, prenom = ?, nom_scene = ?, date_naissance = ?, lieu_residence = ?, style_musical = ? WHERE nom_scene = ?";
     private static final String DELETE_DJ_BY_ID = "DELETE FROM DJ WHERE nom_scene = ?";
+    private static final String SELECT_TOP_DJ = "SELECT DJ.nom_scene, COUNT(*) as nb_evenements FROM DJ JOIN Evenement ON DJ.nom_scene = Evenement.DJ GROUP BY DJ.nom_scene ORDER BY nb_evenements DESC LIMIT 5";
 
     // Méthode pour récupérer tous les Djs
     public List<Dj> getAllDJs() {
@@ -115,5 +118,22 @@ public class DjsDAO {
     	} catch (SQLException e) {
     		e.printStackTrace();
     	}
+    }
+    
+    // Méthode pour récupérer les top dj
+    public List<Pair<String,Integer>> topDj() {
+    	List<Pair<String, Integer>> topDjs = new ArrayList();
+    	try (Connection connection = DBManager.getInstance().getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TOP_DJ);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String dj = resultSet.getString("nom_scene");
+                    int nbEvenements = resultSet.getInt("nb_evenements");
+                    topDjs.add(new Pair<String,Integer>(dj,nbEvenements));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return topDjs;   	
     }
 }
