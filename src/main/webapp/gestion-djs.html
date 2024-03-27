@@ -68,7 +68,7 @@
 	                var djsTableBody = document.getElementById("djTable").getElementsByTagName('tbody')[0];
 	
 	                data.forEach(dj => {
-	                    var row = "<tr><td>" + dj.nom + "</td><td>" + dj.prenom + "</td><td>" + dj.nomScene + "</td><td>" + dj.dateNaissance + "</td><td>" + dj.lieuResidence + "</td><td>" + dj.styleMusical + "</td><td><button class='btn-edit btn btn-warning btn-sm' onclick='toggleEdit(this)'>Éditer</button> <button class='btn-save btn btn-success btn-sm' style='display: none;' onclick='saveChanges(this)'>Enregistrer</button> <button class='btn btn-danger btn-sm' onclick='deleteDj(\"" + dj.nomScene + "\")'><i class='bi bi-trash'></i></button></td></tr>";
+	                	var row = "<tr><td>" + dj.nom + "</td><td>" + dj.prenom + "</td><td djNomScene='"+dj.nomScene+"'>" + dj.nomScene + "</td><td>" + dj.dateNaissance + "</td><td>" + dj.lieuResidence + "</td><td>" + dj.styleMusical + "</td><td><button class='btn-edit btn btn-warning btn-sm' onclick='toggleEdit(this)'><i class='bi bi-pencil'></i></button> <button class='btn-save btn btn-success btn-sm' style='display: none;' onclick='saveChanges(this)'><i class='bi-check-circle-fill'></i></button> <button class='btn btn-danger btn-sm' onclick='deleteDj(\"" + dj.nomScene + "\")'><i class='bi bi-trash'></i></button></td></tr>";
 	                    djsTableBody.innerHTML += row;
 	                });
 	            })
@@ -80,7 +80,8 @@
 		    fetch('./api/djs/nom/' + nomScene, { method: 'DELETE' })
 		        .then(response => {
 		            if (response.ok) {
-		                // La suppression a réussi, aucune action nécessaire
+		            	// La suppression a réussi, supprime la ligne correspondante de la table
+		            	window.location.reload();
 		            } else {
 		                // La suppression a échoué, afficher un message d'erreur ou journaliser l'erreur
 		                console.error('Erreur lors de la suppression du DJ:', response.statusText);
@@ -121,29 +122,66 @@
 	    }
 
 
-	 	// Fonction pour enregistrer les modifications
+	 	// Mappage des noms de colonnes du front-end aux noms de propriétés du backend
+	    const columnMapping = {
+	        "Nom": "nom",
+	        "Prénom": "prenom",
+	        "Nom de scène": "nomScene",
+	        "Date de naissance": "dateNaissance",
+	        "Lieu de résidence": "lieuResidence",
+	        "Style musical": "styleMusical"
+	    };
+	 	
 	    function saveChanges(button) {
-	    	// Change l'icône du bouton en stylo (éditer)
 	        button.innerHTML = '<i class="bi bi-pencil-fill"></i>';
-	        // Cache le bouton "Enregistrer"
 	        button.style.display = "none";
-	        // Affiche le bouton "Éditer"
 	        button.previousElementSibling.style.display = "inline-block";
 
-	        // Sélectionne la ligne du DJ
 	        var row = button.closest('tr');
-	        // Sélectionne toutes les cellules de la ligne, sauf la dernière (qui contient les boutons)
 	        var cells = row.querySelectorAll('td:not(:last-child)');
-	        // Parcourt chaque cellule
-	        cells.forEach(function(cell) {
-	            // Sélectionne l'input dans la cellule
-	            var input = cell.querySelector('input');
-	            // Remplace le contenu de la cellule par la valeur de l'input
-	            cell.textContent = input.value;
+
+	        var djNomSceneLoc = row.querySelector('[djNomScene]').getAttribute('djNomScene');
+	        var djData = {};
+			
+	        cells.forEach(function(cell, index) {
+	            var thElement = document.querySelector('#djTable th:nth-child(' + (index + 1) + ')');
+	            var columnName = thElement.textContent.trim();
+	            var backendPropertyName = columnMapping[columnName];
+	            var cellValue;
+	            
+	            // Vérifier si la cellule est en mode édition
+	            var inputElement = cell.querySelector('input');
+	            if (inputElement) {
+	                // Si la cellule est en mode édition, récupérer la valeur de l'input
+	                cellValue = inputElement.value;
+	            } else {
+	                // Sinon, récupérer la valeur de la cellule directement
+	                cellValue = cell.textContent.trim();
+	            }
+
+	            djData[backendPropertyName] = cellValue;
 	        });
-	     // Change l'icône du bouton en coche (enregistrer)
-	        button.innerHTML = '<i class="bi bi-check-circle-fill"></i>';
+
+
+	        return fetch('./api/djs/nom/'+djNomSceneLoc, {
+	            method: 'PATCH',
+	            headers: {'Content-Type': 'application/json'},
+	            body: JSON.stringify(djData)
+	        })
+	        .then(response => {
+	            if (response.ok) {
+	                console.log('Les modifications ont été enregistrées avec succès.');
+	                window.location.reload();
+	            } else {
+	                console.error('Erreur lors de l\'enregistrement des modifications:', response.statusText);
+	            }
+	        })
+	        .catch(error => console.error('Erreur lors de l\'enregistrement des modifications:', error))
+	        .finally(() => {
+	            button.innerHTML = '<i class="bi bi-check-circle-fill"></i>';
+	        });
 	    }
+
 
 	</script>
 
