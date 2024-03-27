@@ -51,15 +51,18 @@ public class EventController {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response addevent(@FormParam("date") String date, 
-							 @FormParam("h_debut") int h_debut,
-							 @FormParam("h_fin") int h_fin,
-							 @FormParam("dj_name") String dj_name,
-							 @FormParam("place_id") int place_id) {
+	public Response addevent(@FormParam("dateDebut") String dateDebut, 
+							 @FormParam("dateFin") String dateFin,
+							 @FormParam("dj") String dj,
+							 @FormParam("lieu") String lieu) {
 		
 		//Creation de l'event et insertion dans la bdd grace à la DAO
+		String[] parts = lieu.split("_");
+		String nom_lieu = parts[0];
+		String nom_ville = parts[1];
 		
-		String responseMsg = "Évènement créé";
-		return Response.ok().entity(responseMsg).build();
+		eventsDAO.addEvent(new Evenement(dateDebut, dateFin, dj, nom_lieu, nom_ville));
+		
+		return Response.ok("Évènement ajouté avec succès").build();
 	}
 }

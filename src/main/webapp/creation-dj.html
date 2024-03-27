@@ -90,8 +90,6 @@
 			// Construire les données du formulaire au format application/x-www-form-urlencoded
 	        const urlEncodedData = new URLSearchParams(formData).toString();
 
-			
-			console.log(urlEncodedData);
 	        fetch('./api/djs', {
 	            method: 'POST',
 	            body: urlEncodedData,
