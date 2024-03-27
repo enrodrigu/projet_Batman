@@ -111,4 +111,16 @@ public class DjController {
 	    // Retournez une réponse appropriée
 	    return Response.ok("DJ ajouté avec succès").build();
 	}
+	
+	@GET
+	@Path("filtre/top")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String topDj() {
+		List<Pair<String,Integer>> topDjs = djsDAOImpl.topDj();
+		
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		String json = gson.toJson(topDjs);
+		return json;
+	}
 }
