@@ -17,13 +17,13 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/events")
+@Path("/evenements")
 public class EventController {
+	EvenementsDAO eventsDAO = new EvenementsDAO();
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String calendar() {
-		EvenementsDAO eventsDAO = new EvenementsDAO();
 		List<Evenement> calendar = eventsDAO.getAllEvents();
 		
 		GsonBuilder builder = new GsonBuilder();
@@ -34,24 +34,35 @@ public class EventController {
 	}
 	
 	@GET
-	@Path("/{date}/{dj_name}")
+	@Path("/{date}/{nomScene}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String event(@PathParam("date") String date,
-						@PathParam("dj_name") String dj_name) {
-		return "Évènement récupéré";
+						@PathParam("nomScene") String nomScene) {
+		
+		System.out.println(date + nomScene);
+		Evenement event = eventsDAO.getEventById(date, nomScene);
+		
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		String json = gson.toJson(event);
+		
+		return json;
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response addevent(@FormParam("date") String date, 
-							 @FormParam("h_debut") int h_debut,
-							 @FormParam("h_fin") int h_fin,
-							 @FormParam("dj_name") String dj_name,
-							 @FormParam("place_id") int place_id) {
+	public Response addevent(@FormParam("dateDebut") String dateDebut, 
+							 @FormParam("dateFin") String dateFin,
+							 @FormParam("dj") String dj,
+							 @FormParam("lieu") String lieu) {
 		
 		//Creation de l'event et insertion dans la bdd grace à la DAO
+		String[] parts = lieu.split("_");
+		String nom_lieu = parts[0];
+		String nom_ville = parts[1];
 		
-		String responseMsg = "Évènement créé";
-		return Response.ok().entity(responseMsg).build();
+		eventsDAO.addEvent(new Evenement(dateDebut, dateFin, dj, nom_lieu, nom_ville));
+		
+		return Response.ok("Évènement ajouté avec succès").build();
 	}
 }
