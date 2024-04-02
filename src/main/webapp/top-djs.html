@@ -42,29 +42,19 @@
     </div>
     <script>
         // Script JavaScript pour récupérer et afficher le top 5 des DJs
+        fetch('./api/djs/filtre/top')
+    		.then(response => response.json())
+    		.then(data => {
+        // Select the list
+        const selectElement = document.getElementById('topDjsList');
 
-        // Exemple de données de top DJs (remplacez cela par vos propres données)
-        var topDJs = [
-            { nom: "DJ 1", evenementsPasses: 15 },
-            { nom: "DJ 2", evenementsPasses: 12 },
-            { nom: "DJ 3", evenementsPasses: 10 },
-            { nom: "DJ 4", evenementsPasses: 8 },
-            { nom: "DJ 5", evenementsPasses: 6 }
-        ];
-
-        // Fonction pour afficher le top 5 des DJs dans la liste ordonnée
-        function afficherTopDJs() {
-            var topDJsList = document.getElementById("topDJsList");
-            for (var i = 0; i < topDJs.length && i < 5; i++) {
-                var dj = topDJs[i];
-                var listItem = document.createElement("li");
-                listItem.textContent = dj.nom + " - " + dj.evenementsPasses + " événements passés";
-                topDJsList.appendChild(listItem);
-            }
-        }
-
-        // Appel de la fonction pour afficher le top 5 des DJs au chargement de la page
-        window.onload = afficherTopDJs;
+        // Populate element
+        data.forEach(value => {
+        	var listItem = document.createElement("li");
+            listItem.textContent = value.first + " - " + value.second + " événements";
+            topDJsList.appendChild(listItem);
+        });
+        })
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>  
 </body>

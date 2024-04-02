@@ -22,7 +22,7 @@ public class DjsDAO {
     private static final String INSERT_DJ = "INSERT INTO DJ (nom, prenom, nom_scene, date_naissance, lieu_residence, style_musical) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String EDIT_DJ_BY_ID = "UPDATE DJ SET nom = ?, prenom = ?, nom_scene = ?, date_naissance = ?, lieu_residence = ?, style_musical = ? WHERE nom_scene = ?";
     private static final String DELETE_DJ_BY_ID = "DELETE FROM DJ WHERE nom_scene = ?";
-    private static final String SELECT_TOP_DJ = "SELECT DJ.nom_scene, COUNT(*) as nb_evenements FROM DJ JOIN Evenement ON DJ.nom_scene = Evenement.DJ GROUP BY DJ.nom_scene ORDER BY nb_evenements DESC LIMIT 5";
+    private static final String SELECT_TOP_DJ = "SELECT DJ.nom_scene, COUNT(*) as nb_evenements FROM DJ JOIN Evenement ON DJ.nom_scene = Evenement.DJ WHERE Evenement.date_fin_evenement < CURRENT_DATE() GROUP BY DJ.nom_scene ORDER BY nb_evenements DESC LIMIT 5";
 
     // Méthode pour récupérer tous les Djs
     public List<Dj> getAllDJs() {
