@@ -6,9 +6,22 @@
     <title>Événements à Venir</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet">
+    <style>
+        /* Supprimer les styles de liens sur les numéros des jours */
+        .fc-daygrid-day-number {
+            text-decoration: none !important;
+            color: inherit !important;
+        }
+        
+        /* Désactiver les styles de liens sur les noms des jours */
+        .fc-col-header-cell a {
+            text-decoration: none !important;
+            color: inherit !important;
+        }
+    </style>
 </head>
-<body>
-    <a href="./" class="container text-bg-success fs-1 p-3 text-center p-0" style="display: block; text-decoration: none;">
+<body class="bg-dark text-light"> <!-- Ajout des classes pour le fond sombre et le texte clair -->
+    <a href="./" class="container bg-primary text-white fs-1 p-3 text-center p-0" style="display: block; text-decoration: none;">
         Gestion des Tournées de DJs
     </a>
     <div class="container">
@@ -51,7 +64,9 @@
             initialView: 'dayGridMonth',
             locale: 'fr', // Ajout de la localisation française
             buttonText: {
-                today: "Aujourd'hui" // Traduction personnalisée du bouton "Today"
+                today: "Aujourd'hui", // Traduction personnalisée du bouton "Today"
+                prev: "<", // Icône "Mois précédent"
+                next: ">" // Icône "Mois suivant"
             },
             eventTimeFormat: { // Format d'affichage de l'heure des événements
                 hour: '2-digit',
